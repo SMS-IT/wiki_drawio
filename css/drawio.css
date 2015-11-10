@@ -1,0 +1,48 @@
+
+.drawio-editor-mask{
+	display:none;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:100;
+	overflow:hidden;
+	width:100%;
+	height:100%;
+	background:rgba(0,0,0,0.4);
+	vertical-align:middle;
+	text-align:center;
+	line-height:100%;
+	line-height:100vh;
+	font-size:x-large
+}
+
+.drawio-editor-saving{
+	display:inline;
+	background-color:#eee;
+	background-image:url('../img/wpspin-2x.gif');
+	background-repeat:no-repeat;
+	background-position:15px center;
+	padding:20px 20px 20px 60px;
+	border-radius:3px;
+	color:#000;
+	-webkit-box-shadow:2px 2px 3px 0 rgba(0,0,0,0.4);
+	-moz-box-shadow:2px 2px 3px 0 rgba(0,0,0,0.4);
+	-o-box-shadow:2px 2px 3px 0 rgba(0,0,0,0.4);
+	box-shadow:2px 2px 3px 0 rgba(0,0,0,0.4)
+}
+
+.drawio-editor-saving-x{
+	cursor:pointer;
+	display:inline;
+	position:relative;
+	top:-1em;
+	top:calc((-20px - 1em) / 2);
+	margin-right:-0.5em;
+	width:1em;
+	text-align:left;
+	color:#ccc
+}
+
+.drawio-editor-saving-x:hover{
+	color:#aaa
+}
