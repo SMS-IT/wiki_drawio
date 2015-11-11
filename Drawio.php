@@ -1,34 +1,4 @@
-<?php/**
- * @package Drawio (draw.io)
- * @version 0.0.1
- */
-/*
-Plugin Name:    Drawio (draw.io)
-Plugin URI:		https://github.com/SMS-IT/wiki_drawio.git
-Description:    Draw and edit flow charts, diagrams, images using Draw.io service.
-Version:        0.0.1
-Author:         SMS-IT
-Author URI:     http://www.sms-it.ru/
-License:        GPL3 or later
-License URI:    https://www.gnu.org/licenses/gpl-3.0.html
-
-
-    Copyright 2015 SMS-IT 
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 3, as 
-    published by the Free Software Foundation.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-*/
+<?php
 
 # Add a hook for the parser function setup function
 $wgExtensionFunctions[] = 'efDrawioParserFunction_Setup';
@@ -39,15 +9,17 @@ $wgAutoloadClasses['Drawio'] = dirname(__FILE__) . '/Drawio.body.php';
 $wgSpecialPages['Drawio'] = 'Drawio';
 $wgExtensionMessagesFiles['Drawio'] = dirname(__FILE__) . '/Drawio.i18n.php';
 
+# Setup extension credits
+$wgExtensionCredits['parserhook'][] = array(
+   'name' => 'Drawio',
+   'version' => "0.0.1",
+   'author' => 'sms-it',
+   'url' => 'http://www.mediawiki.org/wiki/Extension:Drawio',   
+   'description' => 'Draws pretty diagramms using Draw.io service.'
+);
+
 # Setup the AnyWikDraw parser function
 function efDrawioParserFunction_Setup() {
-	
-    # Setup extension credits
-    $wgExtensionCredits['parserhook'][] = array(
-       'name' => 'Drawio',
-       'author' => 'sms-it'
-       );
-
     # Setup function hook associating the "drawio" magic word with our function
     global $wgParser;
     $wgParser->setFunctionHook( 'drawio', 'efDrawioParserFunction_Render' );
@@ -127,7 +99,7 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
 		$xml_name = "Drawio_".$name.".xml";
 		$xml = getXml($xml_name);
 
-		// frame
+		// вывод фрэйма	
 		$output .= 	
 		'<a name="Drawio" id="Drawio">'.
 			'<script type="text/javascript" src="'.$wgScriptPath.'/extensions/Drawio/js/drawio.js"></script>'.	
