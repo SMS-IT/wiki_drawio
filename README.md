@@ -1,11 +1,19 @@
 Plugin Name:    Drawio (draw.io)
+
 Plugin URI:		https://github.com/SMS-IT/wiki_drawio.git
+
 Description:    Draw and edit flow charts, diagrams, images using Draw.io service.
+
 Version:        0.0.1
+
 Author:         SMS-IT
+
 Author URI:     http://www.sms-it.ru/
+
 License:        GPL3 or later
+
 License URI:    https://www.gnu.org/licenses/gpl-3.0.html
+
 
 
     Copyright 2015 SMS-IT 
