@@ -55,7 +55,8 @@ class Drawio extends SpecialPage {
             $_FILES['wpUploadFile']['type'] = $file_type;
             $_FILES['wpUploadFile']['error'] = 0;
             $_FILES['wpUploadFile']['size'] = $file_len;
-            $tmp_name = $_SERVER["DOCUMENT_ROOT"] . "/tmp/tmp_".rand(0,1000).rand(0,1000).".".$ext;
+            // $tmp_name = $_SERVER["DOCUMENT_ROOT"] . "tmp/tmp_".rand(0,1000).rand(0,1000).".".$ext;
+            $tmp_name = wfTempDir()."tmp_".rand(0,1000).rand(0,1000).".".$ext;
             $f = fopen($tmp_name, "w");
             fwrite($f,$file_body);
             fclose($f);
@@ -70,7 +71,8 @@ class Drawio extends SpecialPage {
               unlink($tmp_name);
             }
         }
-	
+        // $outcome['request'] = $wgRequest;
+        // $outcome['form'] = $form;
         return $outcome;
     }
 
@@ -129,7 +131,7 @@ class Drawio extends SpecialPage {
             case  UploadBase::VERIFICATION_ERROR :
                 header('HTTP/1.0 400 Bad Request');
                 echo('<html><body>');
-                echo('<p>The uploaded file did not pass server verification.</p>');
+                echo('<p>The uploaded file did not pass server verification.: '.print_r($outcome, true).'</p>');
                 echo('</body></html>');
                 break;
 
