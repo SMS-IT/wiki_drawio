@@ -78,6 +78,7 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
     
     # Generate the image HTML as if viewed by a web request
     $image_name = "Drawio_".$name.".png";
+    $xml_name = "Drawio_".$name.".xml";
     $image = wfFindFile($image_name);
 	
 	$output ='';//.= "xxx " . print_r($image, true) . " xxx";
@@ -96,7 +97,6 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
 		// edit the drawio
 		$uploadURL = str_replace('$1', 'Special:Drawio', $wgArticlePath);    
 
-		$xml_name = "Drawio_".$name.".xml";
 		$xml = getXml($xml_name);
 
 		// вывод фрэйма	
@@ -124,8 +124,9 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
 		'</a>';
 
     } else {
-		$output = '<table><tr><td>';
-		
+        // $output = '<table><tr><td>';
+		$output = '';
+
         // Retrieve the page object of the image to determine, whether the user may edit it
         $filtered = preg_replace ( "/[^".Title::legalChars()."]|:/", '-', $name );
         $nt = Title::newFromText( $filtered );
@@ -153,10 +154,10 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
             }
             $output .= '<form name="'.$formId.'" method="post" action="'.$action.'">'.
                     '<input type="hidden" name="drawiotitle" value="'.htmlspecialchars($name).'">'.
-                    '<p align="right">'.
-                    '<a class=noprint href="javascript:document.'.$formId.'.submit();">['.wfMsg('edit').']</a>'.
-                    '<noscript><input type="submit" name="submit" value="'.wfMsg('edit').'"></input></noscript>'.
-                    '</p>';
+                    '<span class="mw-editsection">'.
+                        '<a class="noprint" href="javascript:document.'.$formId.'.submit();">['.wfMsg('edit').' '.$xml_name.']</a>'.
+                        '<noscript><input type="submit" name="submit" value="'.wfMsg('edit').'"></input></noscript>'.
+                    '</span>';
         }
 		
         // render the drawio
@@ -190,8 +191,8 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
         if ($_GET['action'] != "pdfbook" && $userCanEdit && ! key_exists('drawiotitle', $_POST)) {
             $output .= '</form>';
         }
-		
-		$output .= '</tr></td></table>';
+
+		// $output .= '</tr></td></table>';
     }
 
     // render a footer
