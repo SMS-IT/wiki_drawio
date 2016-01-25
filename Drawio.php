@@ -12,7 +12,7 @@ $wgExtensionMessagesFiles['Drawio'] = dirname(__FILE__) . '/Drawio.i18n.php';
 # Setup extension credits
 $wgExtensionCredits['parserhook'][] = array(
    'name' => 'Drawio',
-   'version' => "0.0.1",
+   'version' => "0.0.2",
    'author' => 'sms-it',
    'url' => 'http://www.mediawiki.org/wiki/Extension:Drawio',   
    'description' => 'Draws pretty diagramms using Draw.io service.'
@@ -90,7 +90,7 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
     }
 
     // render a header
-    //$output = '<table><tr><td>';
+    $output = '';
     if ($wgEnableUploads && !$isProtected && key_exists('drawiotitle', $_POST) && 	$_POST['drawiotitle'] == $name){
 
 		// edit the drawio
@@ -124,7 +124,7 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
 		'</a>';
 
     } else {
-		$output = '<table><tr><td>';
+		$output .= '<table><tr><td>';
 		
         // Retrieve the page object of the image to determine, whether the user may edit it
         $filtered = preg_replace ( "/[^".Title::legalChars()."]|:/", '-', $name );
@@ -195,7 +195,7 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
     }
 
     // render a footer
-    //
+    
     $return = array($output, 'isHTML'=>true, 'noparse'=>true);
     return $return;
 }

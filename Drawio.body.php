@@ -1,11 +1,11 @@
 <?php
 
 class Drawio extends SpecialPage {
-	
+
     var $mUploadDescription, $mLicense, $mUploadOldVersion;
     var $mUploadCopyStatus, $mUploadSource, $mWatchthis;
 
-    static $version = "0.1";
+    static $version = "0.2";
 
 
     function Drawio() {
@@ -18,7 +18,7 @@ class Drawio extends SpecialPage {
         $this->mWatchthis = false;
     }
 
-    function execute( $par ) {        
+    function execute( $par ) {
         $this->processUpload();
     }
 
@@ -26,6 +26,7 @@ class Drawio extends SpecialPage {
         global $wgRequest, $wgUser;
 
         $ext = $type;
+
         $file_name = "Drawio_" . $wgRequest->getVal('drawio'). "." . $ext;
 
         $wgRequest->setVal('wpDestFile', $file_name);
@@ -35,17 +36,17 @@ class Drawio extends SpecialPage {
         $wgRequest->setVal('action', "");
 
         if ($type == "png") {
-			$file_type = "image/png";
-			$pngval = $wgRequest->getVal($type);			
-			$comma_pos = strpos($pngval, ',');
-			if($comma_pos === false) {
-				$file_body = stripslashes($pngval);
-			} else {
-				$file_body = base64_decode(substr($pngval, $comma_pos + 1));            
-			}		  
+            $file_type = "image/png";
+            $pngval = $wgRequest->getVal($type);
+            $comma_pos = strpos($pngval, ',');
+            if($comma_pos === false) {
+                $file_body = stripslashes($pngval);
+            } else {
+                $file_body = base64_decode(substr($pngval, $comma_pos + 1));
+            }
         } else {
-			$file_type = "text/xml";
-			$file_body = $wgRequest->getVal($type);
+            $file_type = "text/xml";
+            $file_body = $wgRequest->getVal($type);
         }
 
         $file_len = strlen($file_body);
@@ -55,33 +56,38 @@ class Drawio extends SpecialPage {
             $_FILES['wpUploadFile']['type'] = $file_type;
             $_FILES['wpUploadFile']['error'] = 0;
             $_FILES['wpUploadFile']['size'] = $file_len;
-            $tmp_name = $_SERVER["DOCUMENT_ROOT"] . "/tmp/tmp_".rand(0,1000).rand(0,1000).".".$ext;
+            $tmp_name = $this->getUploadDirectory() . "/drawio_tmp_".rand(0,1000).rand(0,1000).".".$ext;
             $f = fopen($tmp_name, "w");
             fwrite($f,$file_body);
             fclose($f);
             $_FILES['wpUploadFile']['tmp_name'] = $tmp_name;
 
-            // Upload 
+            // Upload
             $form = UploadBase::createFromRequest($wgRequest, null);
-			$outcome = $form->verifyUpload();
+            $outcome = $form->verifyUpload();
             $res = $form->performUpload("", "", true, $wgUser);
 
             if (file_exists($tmp_name)) {
               unlink($tmp_name);
             }
         }
-	
+
         return $outcome;
     }
 
+    function getUploadDirectory() {
+        global $wgUploadDirectory;
+        return $wgUploadDirectory;
+        // return $_SERVER["DOCUMENT_ROOT"] . "/tmp";
+    }
 
     function processUpload() {
         global $wgRequest;
 
-        // uploading of png
+        // Загрузка изображения
         $outcome = $this->loadFile("png");
 
-        // uploading of xml
+        // Загрузка xml
         $outcome = $this->loadFile("xml");
 
         // Return outcome along with an appropriate error message to the client
@@ -146,8 +152,10 @@ class Drawio extends SpecialPage {
                 echo('<html><body>Function UploadForm:internalProcessUpload returned an unknown code: ' . print_r($outcome, true) . '.</body></html>');
                 break;
         }
-		
-		error_reporting(0);        
+
+        // Выключение протоколирования ошибок
+        error_reporting(0);
+
         exit();
     }
 
