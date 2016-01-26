@@ -76,9 +76,10 @@ class Drawio extends SpecialPage {
     }
 
     function getUploadDirectory() {
-        global $wgUploadDirectory;
-        return $wgUploadDirectory;
-        // return $_SERVER["DOCUMENT_ROOT"] . "/tmp";
+		return wfTempDir();
+        //global $wgUploadDirectory;
+        //return $wgUploadDirectory;
+        //return $_SERVER["DOCUMENT_ROOT"] . "/tmp";
     }
 
     function processUpload() {
@@ -135,7 +136,7 @@ class Drawio extends SpecialPage {
             case  UploadBase::VERIFICATION_ERROR :
                 header('HTTP/1.0 400 Bad Request');
                 echo('<html><body>');
-                echo('<p>The uploaded file did not pass server verification.</p>');
+				echo('<p>The uploaded file did not pass server verification: ' . print_r($outcome, true) . '</p>');
                 echo('</body></html>');
                 break;
 

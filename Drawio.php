@@ -154,7 +154,7 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
             $output .= '<form name="'.$formId.'" method="post" action="'.$action.'">'.
                     '<input type="hidden" name="drawiotitle" value="'.htmlspecialchars($name).'">'.
                     '<p align="right">'.
-                    '<a class=noprint href="javascript:document.'.$formId.'.submit();">['.wfMsg('edit').']</a>'.
+                    '<a class="noprint" href="javascript:document.'.$formId.'.submit();">['.wfMsg('edit').']</a>'.
                     '<noscript><input type="submit" name="submit" value="'.wfMsg('edit').'"></input></noscript>'.
                     '</p>';
         }
