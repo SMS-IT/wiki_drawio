@@ -1,8 +1,14 @@
 Plugin Name:    Drawio (draw.io)
 
-Plugin URI:		https://github.com/SMS-IT/wiki_drawio.git
+Description:    
+  Draw and edit flow charts, diagrams, images using Draw.io service.
+  
+  Note! You should enable .xml extension in $wgFileExtensions in LocalSettings.php
 
-Description:    Draw and edit flow charts, diagrams, images using Draw.io service.
+
+
+
+Plugin URI:		https://github.com/SMS-IT/wiki_drawio.git
 
 Version:        0.0.1
 
