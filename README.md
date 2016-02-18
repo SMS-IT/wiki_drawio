@@ -3,7 +3,7 @@ Plugin Name:    Drawio (draw.io)
 Description:    
   Draw and edit flow charts, diagrams, images using Draw.io service.
   
-  Note! You should enable .xml extension in $wgFileExtensions in LocalSettings.php
+  Note! You should enable .xml file extension in $wgFileExtensions in LocalSettings.php
 
 
 
