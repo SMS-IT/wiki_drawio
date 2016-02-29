@@ -167,7 +167,7 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
                 (($height != null) ? 'height:'.$height.'px;' : '').'"'.
                 '>'.htmlspecialchars($name).'</div>';
         } else {
-            $output .= '<a href="/index.php/Image:' . $image_name.'">';
+            $output .= '<a href="'.$wgScriptPath.'/index.php/Image:' . $image_name.'">';
             // Note: We append the timestamp of the image to the
             //       view URL as a query string. This way, we ensure,
             //       that the browser always displays the last edited version
