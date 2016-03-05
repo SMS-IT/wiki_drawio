@@ -117,7 +117,7 @@ function efDrawioParserFunction_Render( &$parser, $name = null, $width = null, $
 			'<input type="hidden" id="drawio-xml" value="'.htmlspecialchars($xml).'">'.  
 			'<input type="hidden" id="drawio-name" value="'.htmlspecialchars($name).'">'.
 			'<input type="hidden" id="drawio-img-type" value="'.htmlspecialchars($img_type).'">'.
-			'<input type="hidden" id="drawio-upload-url" value="http://'.$_SERVER['HTTP_HOST'].$uploadURL.'">'.
+			'<input type="hidden" id="drawio-upload-url" value="'.$uploadURL.'">'.
 			'<input type="hidden" id="drawio-close-url" value="'.$_SERVER['HTTP_REFERER'].'"/>'.		
 		
 			'<div id="resizable" style="width:100%;height:600px">'.
