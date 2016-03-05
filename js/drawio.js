@@ -18,7 +18,7 @@ jQuery(document).ready( function() {
         img_msg = {
             'action':       'export',
             'embedImages':  true,
-            'format':       'png' 
+            'format':       document.getElementById('drawio-img-type').value,
         };
         send_msg(img_msg);
     }
@@ -29,7 +29,7 @@ jQuery(document).ready( function() {
             'xml': xml_data,
 			'drawio': document.getElementById('drawio-name').value,
             'img_type': img_type,
-            'png': img_data
+            'img_data': img_data
         };
 				
 		// special page url

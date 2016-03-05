@@ -22,6 +22,15 @@ class Drawio extends SpecialPage {
         $this->processUpload();
     }
 
+    function handleDrawIOImageData( $data ) {
+        $comma_pos = strpos($data, ',');
+        if($comma_pos === false) {
+            return stripslashes($data);
+        } else {
+            return base64_decode(substr($data, $comma_pos + 1));
+        }
+    }
+
     function loadFile($type) {
         global $wgRequest, $wgUser;
 
@@ -37,13 +46,10 @@ class Drawio extends SpecialPage {
 
         if ($type == "png") {
             $file_type = "image/png";
-            $pngval = $wgRequest->getVal($type);
-            $comma_pos = strpos($pngval, ',');
-            if($comma_pos === false) {
-                $file_body = stripslashes($pngval);
-            } else {
-                $file_body = base64_decode(substr($pngval, $comma_pos + 1));
-            }
+            $file_body = $this->handleDrawIOImageData($wgRequest->getVal("img_data"));
+        } else if ($type == "svg") {
+            $file_type = "image/svg+xml";
+            $file_body = $this->handleDrawIOImageData($wgRequest->getVal("img_data"));
         } else {
             $file_type = "text/xml";
             $file_body = $wgRequest->getVal($type);
@@ -65,14 +71,17 @@ class Drawio extends SpecialPage {
             // Upload
             $form = UploadBase::createFromRequest($wgRequest, null);
             $outcome = $form->verifyUpload();
+	    $status = $outcome['status'];
             $res = $form->performUpload("", "", true, $wgUser);
 
             if (file_exists($tmp_name)) {
               unlink($tmp_name);
             }
-        }
+        } else {
+            $status = UploadBase::EMPTY_FILE;
+	}
 
-        return $outcome;
+        return $status;
     }
 
     function getUploadDirectory() {
@@ -82,17 +91,9 @@ class Drawio extends SpecialPage {
         //return $_SERVER["DOCUMENT_ROOT"] . "/tmp";
     }
 
-    function processUpload() {
-        global $wgRequest;
-
-        // Загрузка изображения
-        $outcome = $this->loadFile("png");
-
-        // Загрузка xml
-        $outcome = $this->loadFile("xml");
-
+    function handleResponse($status) {
         // Return outcome along with an appropriate error message to the client
-        switch ($outcome['status']) {
+        switch ($status) {
             case  UploadBase::SUCCESS :
                 header('HTTP/1.0 200 OK');
                 header('Content-Type: text/json');
@@ -158,6 +159,28 @@ class Drawio extends SpecialPage {
         error_reporting(0);
 
         exit();
+ 
+    }
+
+    function processUpload() {
+        global $wgRequest;
+
+	// load image
+	$type = $wgRequest->getVal('img_type');
+	if ($type == 'png' || $type == 'svg') {
+            $status = $this->loadFile($type);
+	} else {
+            $this->handleResponse(UploadBase::FILETYPE_MISSING);
+	    // does not return
+	}
+
+        if ($status != UploadBase::SUCCESS) {
+	    $this->handleResponse($status);
+	    // does not return
+	}
+
+	// load xml
+        $this->handleResponse($this->loadFile("xml"));
     }
 
     function echoDetails($msg) {
