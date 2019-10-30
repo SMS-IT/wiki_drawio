@@ -1,0 +1,38 @@
+{
+    "name": "DrawIo",
+    "author": [
+        "Pmuckel"
+    ],
+    "url": "https://github.com/Pmuckel",
+    "descriptionmsg": "drawio extension",
+    "license-name": "GPL-2.0-or-later",
+    "type": "other",
+    "requires": {
+        "MediaWiki": ">= 1.32.0"
+    },
+    "AutoloadNamespaces": {
+        "MediaWiki\\Extension\\DrawIo\\": "includes/"
+    },
+    "AutoloadClasses": {
+    },
+    "config": {
+    },
+    "Hooks": {
+        "ParserFirstCallInit": "MediaWiki\\Extension\\DrawIo\\Hooks::onParserFirstCallInit"
+    },
+    "SpecialPages": {
+        "DrawIo": "MediaWiki\\Extension\\DrawIo\\SpecialDrawIo"
+    },
+    "MessagesDirs": {
+    },
+    "ExtensionMessagesFiles": {
+        "DrawIoMagic" : "DrawIo.i18n.magic.php"
+    },
+    "ResourceFileModulePaths": {
+        "localBasePath": "resources",
+            "remoteExtPath": "BoilerPlate/resources"
+    },
+    "ResourceModules": {
+    },
+    "manifest_version": 2
+}
